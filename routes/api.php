@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, "login"]);
     Route::post('register', [AuthController::class, "register"]);
+});
+
+Route::prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, "index"]);
+    Route::put('/', [ProfileController::class, "update"]);
 });
