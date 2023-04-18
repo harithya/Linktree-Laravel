@@ -20,7 +20,11 @@ class AuthController extends Controller
         if ($auth) {
             $user = Auth::user();
             $token = $user->createToken('authToken')->plainTextToken;
-            return response(['user' => $user, 'token' => $token]);
+            return response([
+                'user' => $user,
+                'message' => 'User logged in successfully',
+                'token' => $token
+            ]);
         } else {
             return response(['message' => 'Invalid credentials'], 401);
         }
@@ -29,7 +33,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:users,username',
+            'username' => 'required|unique:users,username|regex:/^[a-zA-Z]+$/u|alpha_dash',
             'password' => 'required|string',
             'name' => 'required|string'
         ]);
@@ -42,7 +46,7 @@ class AuthController extends Controller
         if ($user) {
             return response(['user' => $user, 'message' => 'User created successfully'], 201);
         } else {
-            return response(['message' => 'Invalid credentials'], 401);
+            return response(['message' => 'User creation failed'], 401);
         }
     }
 }

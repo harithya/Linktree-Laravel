@@ -10,8 +10,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return getUser();
-        $user = User::find(auth()->user()->id);
+        $user = User::find(getUser()->id);
         return response(['user' => $user, "message" => "User profile fetched successfully"]);
     }
 }
