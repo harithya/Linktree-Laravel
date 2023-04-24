@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\LinkController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\ThemeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +31,6 @@ Route::prefix('profile')->group(function () {
     Route::get('/', [ProfileController::class, "index"]);
     Route::put('/', [ProfileController::class, "update"]);
 });
+
+Route::apiResource('link', LinkController::class);
+Route::get('theme', [ThemeController::class, "index"]);
