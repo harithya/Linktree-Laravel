@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Theme;
 use App\Models\User;
+use App\Models\UserTheme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -38,14 +41,24 @@ class AuthController extends Controller
             'name' => 'required|string'
         ]);
 
-        $user = User::create(array_merge(
-            $request->except('password'),
-            ['password' => bcrypt($request->password)]
-        ));
+        DB::beginTransaction();
 
-        if ($user) {
+        try {
+            $user = User::create(array_merge(
+                $request->except('password'),
+                ['password' => bcrypt($request->password)]
+            ));
+
+            $theme = Theme::with('colors')->first();
+            UserTheme::create([
+                'users_id' => $user->id,
+                'content' => json_encode($theme),
+            ]);
+
+            DB::commit();
             return response(['user' => $user, 'message' => 'User created successfully'], 201);
-        } else {
+        } catch (\Throwable $th) {
+            DB::rollBack();
             return response(['message' => 'User creation failed'], 401);
         }
     }
