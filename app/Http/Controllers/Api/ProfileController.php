@@ -28,13 +28,13 @@ class ProfileController extends Controller
             // remove image old
             if ($profile->image) {
                 $removeProfile = explode('/', $profile->image);
-                $image_path = public_path('images/' . end($removeProfile));
+                $image_path = public_path('images/avatar/' . end($removeProfile));
                 if (file_exists($image_path)) {
                     unlink($image_path);
                 }
             }
             $file_name = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $file_name);
+            $file->move(public_path('images/avatar/'), $file_name);
             $profile->image = $file_name;
         }
         if ($request->has('name')) {

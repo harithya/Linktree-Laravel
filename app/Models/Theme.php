@@ -18,4 +18,9 @@ class Theme extends Model
     {
         return $this->hasOne(Color::class, 'themes_id', 'id');
     }
+
+    public function userTheme()
+    {
+        return $this->hasMany(UserTheme::class, 'themes_id', 'id');
+    }
 }

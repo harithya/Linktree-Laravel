@@ -28,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('link', LinkController::class);
     Route::get('theme', [ThemeController::class, "index"]);
+    Route::get('my-theme', [ThemeController::class, "myTheme"]);
+    Route::put('my-theme', [ThemeController::class, "updateMyTheme"]);
+
+    Route::post('my-theme/upload-bg', [ThemeController::class, "uploadBackground"]);
 });
 
 Route::prefix('auth')->group(function () {

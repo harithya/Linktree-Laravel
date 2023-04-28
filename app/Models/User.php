@@ -48,6 +48,6 @@ class User extends Authenticatable
     public function getImageAttribute($value)
     {
         if ($value == null) return null;
-        return url('images/' . $value);
+        return url('images/avatar/' . $value);
     }
 }

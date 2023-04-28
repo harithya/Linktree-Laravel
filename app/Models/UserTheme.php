@@ -15,4 +15,14 @@ class UserTheme extends Model
     protected $guarded = ['id'];
 
     public $timestamps = false;
+
+    public function theme()
+    {
+        return $this->belongsTo(Theme::class, 'themes_id');
+    }
+
+    public function getContentAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }
