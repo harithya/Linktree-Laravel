@@ -49,7 +49,7 @@ class AuthController extends Controller
                 ['password' => bcrypt($request->password)]
             ));
 
-            $theme = Theme::with('colors')->first();
+            $theme = Theme::with(['colors', 'attributes'])->first();
             UserTheme::create([
                 'users_id' => $user->id,
                 'content' => json_encode($theme),
@@ -59,7 +59,7 @@ class AuthController extends Controller
             return response(['user' => $user, 'message' => 'User created successfully'], 201);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response(['message' => 'User creation failed'], 401);
+            return response(['message' => 'User creation failed'], 400);
         }
     }
 }

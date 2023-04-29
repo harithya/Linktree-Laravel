@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('link', LinkController::class);
+    Route::post('link/upload', [LinkController::class, "uploadImage"]);
+    Route::delete('link/{id}/delete-image', [LinkController::class, "removeImage"]);
     Route::get('theme', [ThemeController::class, "index"]);
     Route::get('my-theme', [ThemeController::class, "myTheme"]);
     Route::put('my-theme', [ThemeController::class, "updateMyTheme"]);

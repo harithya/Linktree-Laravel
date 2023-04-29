@@ -23,4 +23,9 @@ class Theme extends Model
     {
         return $this->hasMany(UserTheme::class, 'themes_id', 'id');
     }
+
+    public function attributes()
+    {
+        return $this->hasOne(Attribute::class, 'themes_id', 'id');
+    }
 }

@@ -69,4 +69,51 @@ class LinkController extends Controller
             return response(['message' => 'Failed to delete'], 400);
         }
     }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->has('id')) {
+            $link = Link::find($request->id);
+            if ($link->image) {
+                $img = explode('/', $link->image);
+                $image_path = public_path('images/link/' . end($img));
+                if (file_exists($image_path)) {
+                    unlink($image_path);
+                }
+            }
+
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/link'), $imageName);
+
+            Link::where('id', $request->id)->update([
+                'image' => $imageName
+            ]);
+
+            return response(['message' => 'Updated successfully', 'image' => url('images/link/' . $imageName)], 200);
+        }
+
+        return response(['message' => 'Failed to update'], 400);
+    }
+
+    public function removeImage($id)
+    {
+        $link = Link::find($id);
+        if ($link->image) {
+            $img = explode('/', $link->image);
+            $image_path = public_path('images/link/' . end($img));
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+        }
+
+        Link::where('id', $id)->update([
+            'image' => null
+        ]);
+
+        return response(['message' => 'Updated successfully'], 200);
+    }
 }

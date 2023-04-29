@@ -6,17 +6,16 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Link extends Model
+class Attribute extends Model
 {
     use HasFactory, HasUuids;
 
-    public $timestamps = false;
-
     protected $guarded = ['id'];
 
-    public function getImageAttribute($value)
+    public $timestamps = false;
+
+    public function theme()
     {
-        if ($value == null) return null;
-        return url('images/link/' . $value);
+        return $this->belongsTo(Theme::class, 'themes_id', 'id');
     }
 }

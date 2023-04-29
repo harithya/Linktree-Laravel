@@ -11,7 +11,7 @@ class ThemeController extends Controller
 {
     public function index()
     {
-        $theme = Theme::with('colors')->get();
+        $theme = Theme::with(['colors', 'attributes'])->get();
         return response(['message' => 'Retrieved successfully', 'theme' => $theme], 200);
     }
 
