@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\LinkController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ThemeController;
@@ -18,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/app/{username}', [HomeController::class, "index"]);
 Route::middleware('auth:sanctum')->group(function () {
-
-
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, "index"]);
         Route::put('/', [ProfileController::class, "update"]);
@@ -39,4 +40,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, "login"]);
     Route::post('register', [AuthController::class, "register"]);
+    Route::post('logout', [AuthController::class, "logout"]);
 });

@@ -9,6 +9,7 @@ use App\Models\UserTheme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -61,5 +62,19 @@ class AuthController extends Controller
             DB::rollBack();
             return response(['message' => 'User creation failed'], 400);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $accessToken = $request->bearerToken();
+
+        PersonalAccessToken::findToken($accessToken)->delete();
+        Auth::logout();
+        return response(['message' => 'User logged out successfully'], 200);
+    }
+
+    // create remove user
+    public function removeUser()
+    {
     }
 }
